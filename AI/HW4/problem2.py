@@ -271,49 +271,41 @@ def compare_optimization_techniques(initial_state):
     return results
 
 def visualize_optimization_comparison(results, initial_state):
-    """
-    Create visualization comparing optimization techniques
-    CORRECTION: Titles adjusted to prevent overlap.
-    """
+    """Create visualization comparing optimization techniques"""
     techniques = [r['technique'] for r in results]
     nodes = [r['nodes_evaluated'] for r in results]
     times = [r['time_taken'] * 1000 for r in results]  # Convert to milliseconds
     
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
     
-    # Main title is now set on the first subplot, with improved placement
-    ax1.set_title(f'Nim Optimization Techniques Comparison (State: {initial_state}) - Nodes', 
-                  fontsize=12, fontweight='bold', pad=20) 
-    
     # Nodes evaluated comparison
     bars1 = ax1.bar(techniques, nodes, color=['lightcoral', 'lightblue', 'lightgreen'])
+    ax1.set_title('Nodes Evaluated by Different Techniques')
     ax1.set_ylabel('Number of Nodes')
     ax1.tick_params(axis='x', rotation=45)
     
     # Add value labels on bars
     for bar, node_count in zip(bars1, nodes):
         ax1.text(bar.get_x() + bar.get_width()/2, bar.get_height() + max(nodes)*0.01,
-                 f'{node_count}', ha='center', va='bottom')
+                f'{node_count}', ha='center', va='bottom')
     
     # Time taken comparison
-    ax2.set_title(f'Time Comparison (State: {initial_state})', fontsize=12, pad=20)
     bars2 = ax2.bar(techniques, times, color=['lightcoral', 'lightblue', 'lightgreen'])
+    ax2.set_title('Computation Time by Different Techniques')
     ax2.set_ylabel('Time (milliseconds)')
     ax2.tick_params(axis='x', rotation=45)
     
     # Add value labels on bars
     for bar, time_taken in zip(bars2, times):
         ax2.text(bar.get_x() + bar.get_width()/2, bar.get_height() + max(times)*0.01,
-                 f'{time_taken:.2f}ms', ha='center', va='bottom')
+                f'{time_taken:.2f}ms', ha='center', va='bottom')
     
-    plt.tight_layout(rect=[0, 0, 1, 0.95]) # Adjust layout to ensure space for titles
+    plt.suptitle(f'Nim Optimization Techniques Comparison (State: {initial_state})', fontsize=14, fontweight='bold')
+    plt.tight_layout()
     plt.show()
 
 def demonstrate_iterative_deepening(initial_state):
-    """
-    Demonstrate iterative deepening with analysis
-    CORRECTION: Titles adjusted to prevent overlap.
-    """
+    """Demonstrate iterative deepening with analysis"""
     print("=" * 70)
     print("ITERATIVE DEEPENING DEMONSTRATION")
     print("=" * 70)
@@ -347,19 +339,18 @@ def demonstrate_iterative_deepening(initial_state):
     plt.plot(depths, nodes_per_depth, 'bo-', linewidth=2, markersize=8)
     plt.xlabel('Search Depth')
     plt.ylabel('Nodes Evaluated')
-    # Main title is now set on the first subplot
-    plt.title(f'Iterative Deepening Analysis (State: {initial_state}) - Nodes vs Search Depth', 
-              fontsize=12, fontweight='bold', pad=20)
+    plt.title('Nodes vs Search Depth')
     plt.grid(True, alpha=0.3)
     
     plt.subplot(1, 2, 2)
     plt.plot(depths, times_per_depth, 'ro-', linewidth=2, markersize=8)
     plt.xlabel('Search Depth')
     plt.ylabel('Time (seconds)')
-    plt.title('Time vs Search Depth', pad=20) # Simple title for the second plot
+    plt.title('Time vs Search Depth')
     plt.grid(True, alpha=0.3)
     
-    plt.tight_layout(rect=[0, 0, 1, 0.95]) # Adjust layout to ensure space for titles
+    plt.suptitle(f'Iterative Deepening Analysis (State: {initial_state})', fontsize=14, fontweight='bold')
+    plt.tight_layout()
     plt.show()
     
     return results
@@ -405,17 +396,17 @@ def main():
         print(f"ANALYZING NIM STATE: {initial_state}")
         print("=" * 80)
         
-        # 2-ply analysis
+        # 1. 2-ply analysis
         analyze_2_ply_game(initial_state)
         
-        # Optimization techniques comparison
+        # 2. Optimization techniques comparison
         optimization_results = compare_optimization_techniques(initial_state)
         visualize_optimization_comparison(optimization_results, initial_state)
         
-        # Iterative deepening demonstration
+        # 3. Iterative deepening demonstration
         iterative_results = demonstrate_iterative_deepening(initial_state)
         
-        # Heuristic effectiveness analysis
+        # 4. Heuristic effectiveness analysis
         heuristic_effectiveness_analysis(initial_state)
         
         print("\n" + "=" * 80)
